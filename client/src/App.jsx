@@ -7,6 +7,7 @@ import Policies from "./pages/Policies";
 import Claims from "./pages/Claims";
 import Documents from "./pages/Documents";
 import PremiumPayments from "./pages/PremiumPayments";
+import Employees from "./pages/Employees";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/claims" element={<Claims />} />
         <Route path="/documents" element={<Documents />} />
         <Route path="/payments" element={<PremiumPayments />} />
+        <Route path="/employees" element={<Employees />} />
       </Routes>
     </BrowserRouter>
   );
