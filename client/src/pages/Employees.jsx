@@ -105,120 +105,136 @@ function Employees() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Employee Management</h1>
+  <div className="min-h-screen bg-gray-100 p-8">
+    <h1 className="text-3xl font-bold text-blue-700 mb-6">
+      Employee Management
+    </h1>
 
+    {/* Search */}
+    <div className="mb-6">
       <input
         type="text"
-        placeholder="Search Employee..."
+        placeholder="🔍 Search Employee..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
       />
+    </div>
 
-      <br /><br />
-
-      <form onSubmit={handleSubmit}>
-
+    {/* Form */}
+    <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-5"
+      >
         <input
           type="text"
           placeholder="Employee Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
         />
-
-        <br /><br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
         />
-
-        <br /><br />
 
         <input
           type="text"
-          placeholder="Phone"
+          placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className="border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
         />
-
-        <br /><br />
 
         <input
           type="text"
           placeholder="Designation"
           value={designation}
           onChange={(e) => setDesignation(e.target.value)}
+          className="border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-        <br /><br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className={`md:col-span-2 py-3 rounded-lg text-white font-semibold transition ${
+            isEditing
+              ? "bg-yellow-500 hover:bg-yellow-600"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
           {isEditing ? "Update Employee" : "Save Employee"}
         </button>
-
       </form>
+    </div>
 
-      <hr />
+    {/* Employee Table */}
+    <div className="bg-white rounded-xl shadow-lg p-6 overflow-x-auto">
+      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        Employee List
+      </h2>
 
-      <table border="1" cellPadding="10">
-
+      <table className="min-w-full">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Designation</th>
-            <th>Action</th>
+          <tr className="bg-blue-600 text-white">
+            <th className="px-4 py-3 text-left">Name</th>
+            <th className="px-4 py-3 text-left">Email</th>
+            <th className="px-4 py-3 text-left">Phone</th>
+            <th className="px-4 py-3 text-left">Designation</th>
+            <th className="px-4 py-3 text-center">Action</th>
           </tr>
         </thead>
 
         <tbody>
-
           {employees
             .filter((emp) =>
               emp.name.toLowerCase().includes(search.toLowerCase())
             )
             .map((emp) => (
+              <tr
+                key={emp.id}
+                className="border-b hover:bg-gray-100 transition"
+              >
+                <td className="px-4 py-3">{emp.name}</td>
+                <td className="px-4 py-3">{emp.email}</td>
+                <td className="px-4 py-3">{emp.phone}</td>
 
-              <tr key={emp.id}>
-
-                <td>{emp.name}</td>
-                <td>{emp.email}</td>
-                <td>{emp.phone}</td>
-                <td>{emp.designation}</td>
-
-                <td>
-
-                  <button
-                    type="button"
-                    onClick={() => handleEdit(emp)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(emp.id)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Delete
-                  </button>
-
+                <td className="px-4 py-3">
+                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                    {emp.designation}
+                  </span>
                 </td>
 
+                <td className="px-4 py-3">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(emp)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(emp.id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
               </tr>
-
             ))}
-
         </tbody>
-
       </table>
-
     </div>
-  );
+  </div>
+);
 }
 
 export default Employees;

@@ -130,14 +130,22 @@ const handleEdit = (policy) => {
   setIsEditing(true);
 };
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>Policy Management</h1>
+ return (
+  <div className="min-h-screen bg-gray-100 p-8">
+    <h1 className="text-3xl font-bold text-blue-700 mb-6">
+      Policy Management
+    </h1>
 
-      <form onSubmit={handleSubmit}>
+    {/* Form */}
+    <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-5"
+      >
         <select
           value={customerId}
           onChange={(e) => setCustomerId(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         >
           <option value="">Select Customer</option>
 
@@ -148,98 +156,126 @@ const handleEdit = (policy) => {
           ))}
         </select>
 
-        <br /><br />
-
         <input
           type="text"
           placeholder="Policy Number"
           value={policyNumber}
           onChange={(e) => setPolicyNumber(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <input
           type="text"
           placeholder="Policy Type"
           value={policyType}
           onChange={(e) => setPolicyType(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <input
           type="number"
           placeholder="Premium Amount"
           value={premiumAmount}
           onChange={(e) => setPremiumAmount(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <input
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
 
-        <br /><br />
-
-        <button type="submit">
-  {isEditing ? "Update Policy" : "Save Policy"}
-</button>
+        <button
+          type="submit"
+          className={`md:col-span-2 py-3 rounded-lg text-white font-semibold transition ${
+            isEditing
+              ? "bg-yellow-500 hover:bg-yellow-600"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
+          {isEditing ? "Update Policy" : "Save Policy"}
+        </button>
       </form>
-      <hr />
-
-<h2>Policy List</h2>
-
-<table border="1" cellPadding="10">
-  <thead>
-    <tr>
-      <th>Customer</th>
-      <th>Policy No</th>
-      <th>Policy Type</th>
-      <th>Premium</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {policies.map((policy) => (
-      <tr key={policy.id}>
-        <td>{policy.customers?.name}</td>
-        <td>{policy.policy_number}</td>
-        <td>{policy.policy_type}</td>
-        <td>{policy.premium_amount}</td>
-        <td>{policy.start_date}</td>
-        <td>{policy.end_date}</td>
-        <td>{policy.status}</td>
-        <td>
-            <button type="button" onClick={() => handleEdit(policy)}>
-  Edit
-</button>
-
-<button type="button" onClick={() => handleDelete(policy.id)}>
-  Delete
-</button>
-</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
     </div>
-  );
+
+    {/* Policy Table */}
+    <div className="bg-white rounded-xl shadow-lg p-6 overflow-x-auto">
+      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        Policy List
+      </h2>
+
+      <table className="min-w-full border-collapse">
+        <thead>
+          <tr className="bg-blue-600 text-white">
+            <th className="px-4 py-3">Customer</th>
+            <th className="px-4 py-3">Policy No</th>
+            <th className="px-4 py-3">Policy Type</th>
+            <th className="px-4 py-3">Premium</th>
+            <th className="px-4 py-3">Start Date</th>
+            <th className="px-4 py-3">End Date</th>
+            <th className="px-4 py-3">Status</th>
+            <th className="px-4 py-3">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {policies.map((policy) => (
+            <tr
+              key={policy.id}
+              className="border-b hover:bg-gray-100 transition"
+            >
+              <td className="px-4 py-3">{policy.customers?.name}</td>
+              <td className="px-4 py-3">{policy.policy_number}</td>
+              <td className="px-4 py-3">{policy.policy_type}</td>
+              <td className="px-4 py-3">₹ {policy.premium_amount}</td>
+              <td className="px-4 py-3">{policy.start_date}</td>
+              <td className="px-4 py-3">{policy.end_date}</td>
+
+              <td className="px-4 py-3">
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    policy.status === "Active"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {policy.status}
+                </span>
+              </td>
+
+              <td className="px-4 py-3 space-x-2">
+                <button
+                  type="button"
+                  onClick={() => handleEdit(policy)}
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(policy.id)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
 }
 
 export default Policies;

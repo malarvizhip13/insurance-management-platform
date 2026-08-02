@@ -117,23 +117,32 @@ function PremiumPayments() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Premium Payments</h1>
+  <div className="min-h-screen bg-gray-100 p-8">
+    <h1 className="text-3xl font-bold text-blue-700 mb-6">
+      Premium Payments
+    </h1>
 
+    {/* Search */}
+    <div className="mb-6">
       <input
         type="text"
-        placeholder="Search Policy Number..."
+        placeholder="🔍 Search Policy Number..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
       />
+    </div>
 
-      <br /><br />
-
-      <form onSubmit={handleSubmit}>
-
+    {/* Form */}
+    <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-5"
+      >
         <select
           value={policyId}
           onChange={(e) => setPolicyId(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         >
           <option value="">Select Policy</option>
 
@@ -144,57 +153,61 @@ function PremiumPayments() {
           ))}
         </select>
 
-        <br /><br />
-
         <input
           type="number"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <input
           type="date"
           value={paymentDate}
           onChange={(e) => setPaymentDate(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         />
-
-        <br /><br />
 
         <select
           value={paymentStatus}
           onChange={(e) => setPaymentStatus(e.target.value)}
+          className="border rounded-lg px-4 py-3"
         >
-          <option>Paid</option>
-          <option>Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Pending">Pending</option>
         </select>
 
-        <br /><br />
-
-        <button type="submit">
+        <button
+          type="submit"
+          className={`md:col-span-2 py-3 rounded-lg text-white font-semibold transition ${
+            isEditing
+              ? "bg-yellow-500 hover:bg-yellow-600"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
           {isEditing ? "Update Payment" : "Save Payment"}
         </button>
-
       </form>
+    </div>
 
-      <hr />
+    {/* Payment Table */}
+    <div className="bg-white rounded-xl shadow-lg p-6 overflow-x-auto">
+      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        Payment List
+      </h2>
 
-      <table border="1" cellPadding="10">
-
+      <table className="min-w-full">
         <thead>
-          <tr>
-            <th>Policy</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
+          <tr className="bg-blue-600 text-white">
+            <th className="px-4 py-3">Policy</th>
+            <th className="px-4 py-3">Amount</th>
+            <th className="px-4 py-3">Payment Date</th>
+            <th className="px-4 py-3">Status</th>
+            <th className="px-4 py-3">Action</th>
           </tr>
         </thead>
 
         <tbody>
-
           {payments
             .filter((payment) =>
               payment.policies?.policy_number
@@ -202,43 +215,58 @@ function PremiumPayments() {
                 .includes(search.toLowerCase())
             )
             .map((payment) => (
+              <tr
+                key={payment.id}
+                className="border-b hover:bg-gray-100 transition"
+              >
+                <td className="px-4 py-3">
+                  {payment.policies?.policy_number}
+                </td>
 
-              <tr key={payment.id}>
+                <td className="px-4 py-3 font-semibold">
+                  ₹ {payment.amount}
+                </td>
 
-                <td>{payment.policies?.policy_number}</td>
-                <td>{payment.amount}</td>
-                <td>{payment.payment_date}</td>
-                <td>{payment.payment_status}</td>
+                <td className="px-4 py-3">
+                  {payment.payment_date}
+                </td>
 
-                <td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      payment.payment_status === "Paid"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {payment.payment_status}
+                  </span>
+                </td>
 
+                <td className="px-4 py-3 space-x-2">
                   <button
-                    onClick={() => handleEdit(payment)}
                     type="button"
+                    onClick={() => handleEdit(payment)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
                   >
                     Edit
                   </button>
 
                   <button
-                    onClick={() => handleDelete(payment.id)}
                     type="button"
-                    style={{ marginLeft: "10px" }}
+                    onClick={() => handleDelete(payment.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
                   >
                     Delete
                   </button>
-
                 </td>
-
               </tr>
-
             ))}
-
         </tbody>
-
       </table>
-
     </div>
-  );
+  </div>
+);
 }
 
 export default PremiumPayments;

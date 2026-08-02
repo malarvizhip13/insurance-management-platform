@@ -103,102 +103,136 @@ const handleEdit = (customer) => {
   setIsEditing(true);
 };
 
-  return (
-    <div style={{ padding: "20px" }}>
-      <h1>Customer Management</h1>
-<input
-  type="text"
-  placeholder="Search by Name..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
+ return (
+  <div className="min-h-screen bg-gray-100 p-8">
+    <h1 className="text-3xl font-bold text-blue-700 mb-6">
+      Customer Management
+    </h1>
 
-<br /><br />
-      <form onSubmit={handleSubmit}>
+    {/* Search */}
+    <div className="mb-6">
+      <input
+        type="text"
+        placeholder="🔍 Search by Name..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full md:w-96 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+      />
+    </div>
+
+    {/* Form */}
+    <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-5"
+      >
         <input
           type="text"
           placeholder="Customer Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="border rounded-lg px-4 py-2"
         />
-        <br /><br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="border rounded-lg px-4 py-2"
         />
-        <br /><br />
 
         <input
           type="text"
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className="border rounded-lg px-4 py-2"
         />
-        <br /><br />
 
         <input
           type="date"
           value={dob}
           onChange={(e) => setDob(e.target.value)}
+          className="border rounded-lg px-4 py-2"
         />
-        <br /><br />
 
         <textarea
           placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          className="border rounded-lg px-4 py-2 md:col-span-2"
+          rows="3"
         />
-        <br /><br />
 
-        <button type="submit">
-  {isEditing ? "Update Customer" : "Save Customer"}
-</button>
+        <button
+          type="submit"
+          className={`md:col-span-2 text-white py-3 rounded-lg font-semibold transition ${
+            isEditing
+              ? "bg-yellow-500 hover:bg-yellow-600"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
+          {isEditing ? "Update Customer" : "Save Customer"}
+        </button>
       </form>
-      <hr />
-
-<h2>Customer List</h2>
-
-<table border="1" cellPadding="10">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>DOB</th>
-      <th>Address</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {customers
-  .filter((customer) =>
-    customer.name.toLowerCase().includes(search.toLowerCase())
-  )
-  .map((customer) => (
-      <tr key={customer.id}>
-        <td>{customer.name}</td>
-        <td>{customer.email}</td>
-        <td>{customer.phone}</td>
-        <td>{customer.dob}</td>
-        <td>{customer.address}</td>
-        <td>
-              <button onClick={() => handleEdit(customer)}>
-    Edit
-  </button>
-  <button onClick={() => handleDelete(customer.id)}>
-    Delete
-  </button>
-</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
     </div>
-  );
-}
 
+    {/* Table */}
+    <div className="bg-white rounded-xl shadow-lg p-6 overflow-x-auto">
+      <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+        Customer List
+      </h2>
+
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-blue-600 text-white">
+            <th className="p-3">Name</th>
+            <th className="p-3">Email</th>
+            <th className="p-3">Phone</th>
+            <th className="p-3">DOB</th>
+            <th className="p-3">Address</th>
+            <th className="p-3">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {customers
+            .filter((customer) =>
+              customer.name.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((customer) => (
+              <tr
+                key={customer.id}
+                className="border-b hover:bg-gray-100 transition"
+              >
+                <td className="p-3">{customer.name}</td>
+                <td className="p-3">{customer.email}</td>
+                <td className="p-3">{customer.phone}</td>
+                <td className="p-3">{customer.dob}</td>
+                <td className="p-3">{customer.address}</td>
+
+                <td className="p-3 space-x-2">
+                  <button
+                    onClick={() => handleEdit(customer)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(customer.id)}
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+}
 export default Customers;
