@@ -6,6 +6,7 @@ import Customers from "./pages/Customers";
 import Policies from "./pages/Policies";
 import Claims from "./pages/Claims";
 import Documents from "./pages/Documents";
+import PremiumPayments from "./pages/PremiumPayments";
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/policies" element={<Policies />} />
         <Route path="/claims" element={<Claims />} />
         <Route path="/documents" element={<Documents />} />
+        <Route path="/payments" element={<PremiumPayments />} />
       </Routes>
     </BrowserRouter>
   );
