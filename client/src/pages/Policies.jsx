@@ -133,14 +133,7 @@ const handleEdit = (policy) => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Policy Management</h1>
-<input
-  type="text"
-  placeholder="Search Policy Number..."
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-/>
 
-<br /><br />
       <form onSubmit={handleSubmit}>
         <select
           value={customerId}
@@ -223,11 +216,7 @@ const handleEdit = (policy) => {
   </thead>
 
   <tbody>
-    {policies
-  .filter((policy) =>
-    policy.policy_number.toLowerCase().includes(search.toLowerCase())
-  )
-  .map((policy) => (
+    {policies.map((policy) => (
       <tr key={policy.id}>
         <td>{policy.customers?.name}</td>
         <td>{policy.policy_number}</td>

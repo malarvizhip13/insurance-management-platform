@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../services/config";
+
 function Customers() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../services/config";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [customerCount, setCustomerCount] = useState(0);
@@ -7,9 +8,10 @@ function Dashboard() {
   const [claimCount, setClaimCount] = useState(0);
   const [approvedCount, setApprovedCount] = useState(0);
   const [recentClaims, setRecentClaims] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
   fetchCounts();
-  fetchRecentClaims();
+  
 }, []);
 
   const fetchCounts = async () => {
